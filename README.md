@@ -15,8 +15,9 @@ SSO Sync will run on any platform that Go can build for. It is available in the 
 > :warning: `>= 1.0.0-rc.5` groups to do not get deleted in AWS SSO when deleted in the Google Directory, and groups are synced by their email address
 
 > :warning: `>= 2.0.0` this makes use of the **Identity Store API** which means:
-* if deploying the lambda from the [AWS Serverless Application Repository](https://console.aws.amazon.com/lambda/home#/create/app?applicationId=arn:aws:serverlessrepo:us-east-2:004480582608:applications/SSOSync) then it needs to be deployed into the [IAM Identity Center delegated administration](https://docs.aws.amazon.com/singlesignon/latest/userguide/delegated-admin.html) account. Technically you could deploy in the management account but we would recommend against this.
-* if you are running the project as a cli tool, then the environment will need to be using credentials of a user in the [IAM Identity Center delegated administration](https://docs.aws.amazon.com/singlesignon/latest/userguide/delegated-admin.html) account, with appropriate permissions.
+
+- if deploying the lambda from the [AWS Serverless Application Repository](https://console.aws.amazon.com/lambda/home#/create/app?applicationId=arn:aws:serverlessrepo:us-east-2:004480582608:applications/SSOSync) then it needs to be deployed into the [IAM Identity Center delegated administration](https://docs.aws.amazon.com/singlesignon/latest/userguide/delegated-admin.html) account. Technically you could deploy in the management account but we would recommend against this.
+- if you are running the project as a cli tool, then the environment will need to be using credentials of a user in the [IAM Identity Center delegated administration](https://docs.aws.amazon.com/singlesignon/latest/userguide/delegated-admin.html) account, with appropriate permissions.
 
 ## Why?
 
@@ -30,7 +31,7 @@ As per the [AWS SSO](https://aws.amazon.com/single-sign-on/) Homepage:
 Key part further down:
 
 > With AWS SSO, you can create and manage user identities in AWS SSO’s
->identity store, or easily connect to your existing identity source including
+> identity store, or easily connect to your existing identity source including
 > Microsoft Active Directory and **Azure Active Directory (Azure AD)**.
 
 AWS SSO can use other Identity Providers as well... such as Google Apps for Domains. Although AWS SSO
@@ -42,19 +43,19 @@ what it is going to do.
 
 ### References
 
- * [SCIM Protocol RFC](https://tools.ietf.org/html/rfc7644)
- * [AWS SSO - Connect to Your External Identity Provider](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-identity-source-idp.html)
- * [AWS SSO - Automatic Provisioning](https://docs.aws.amazon.com/singlesignon/latest/userguide/provision-automatically.html)
- * [AWS IAM Identity Center - Identity Store API](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html)
+- [SCIM Protocol RFC](https://tools.ietf.org/html/rfc7644)
+- [AWS SSO - Connect to Your External Identity Provider](https://docs.aws.amazon.com/singlesignon/latest/userguide/manage-your-identity-source-idp.html)
+- [AWS SSO - Automatic Provisioning](https://docs.aws.amazon.com/singlesignon/latest/userguide/provision-automatically.html)
+- [AWS IAM Identity Center - Identity Store API](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html)
 
 ## Installation
 
 The recommended installation is:
-* [Setup IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/get-started-enable-identity-center.html), in the management account of your organization
-* Created a linked account `Identity` Account from which to manage IAM Identity Center
-* [Delegate administration](https://docs.aws.amazon.com/singlesignon/latest/userguide/delegated-admin.html) to the `Identity' account
-* Deploy the [SSOSync app](https://console.aws.amazon.com/lambda/home#/create/app?applicationId=arn:aws:serverlessrepo:us-east-2:004480582608:applications/SSOSync) from the AWS Serverless Application Repository
 
+- [Setup IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/get-started-enable-identity-center.html), in the management account of your organization
+- Created a linked account `Identity` Account from which to manage IAM Identity Center
+- [Delegate administration](https://docs.aws.amazon.com/singlesignon/latest/userguide/delegated-admin.html) to the `Identity' account
+- Deploy the [SSOSync app](https://console.aws.amazon.com/lambda/home#/create/app?applicationId=arn:aws:serverlessrepo:us-east-2:004480582608:applications/SSOSync) from the AWS Serverless Application Repository
 
 You can also:
 You can `go get github.com/awslabs/ssosync` or grab a Release binary from the release page. The binary
@@ -72,7 +73,7 @@ as locally running the ssosync tool.
 
 ### Google
 
-First, you have to setup your API. In the project you want to use go to the [Console](https://console.developers.google.com/apis) and select *API & Services* > *Enable APIs and Services*. Search for *Admin SDK* and *Enable* the API.
+First, you have to setup your API. In the project you want to use go to the [Console](https://console.developers.google.com/apis) and select _API & Services_ > _Enable APIs and Services_. Search for _Admin SDK_ and _Enable_ the API.
 
 You have to perform this [tutorial](https://developers.google.com/admin-sdk/directory/v1/guides/delegation) to create a service account that you use to sync your users. Save the `JSON file` you create during the process and rename it to `credentials.json`.
 
@@ -80,9 +81,9 @@ You have to perform this [tutorial](https://developers.google.com/admin-sdk/dire
 
 In the domain-wide delegation for the Admin API, you have to specify the following scopes for the user.
 
-* https://www.googleapis.com/auth/admin.directory.group.readonly
-* https://www.googleapis.com/auth/admin.directory.group.member.readonly
-* https://www.googleapis.com/auth/admin.directory.user.readonly
+- https://www.googleapis.com/auth/admin.directory.group.readonly
+- https://www.googleapis.com/auth/admin.directory.group.member.readonly
+- https://www.googleapis.com/auth/admin.directory.user.readonly
 
 Back in the Console go to the Dashboard for the API & Services and select "Enable API and Services".
 In the Search box type `Admin` and select the `Admin SDK` option. Click the `Enable` button.
@@ -104,7 +105,7 @@ SSOSYNC_SCIM_ACCESS_TOKEN=<YOUR_TOKEN>
 SSOSYNC_SCIM_ENDPOINT=<YOUR_ENDPOINT>
 ```
 
-Additionally, authenticate your AWS credentials. Follow this  [section](https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#:~:text=Creating%20the%20Credentials%20File) to create a Shared Credentials File in the home directory or export your Credentials with Environment Variables. Ensure that the default credentials are for the AWS account you intended to be synced.
+Additionally, authenticate your AWS credentials. Follow this [section](https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#:~:text=Creating%20the%20Credentials%20File) to create a Shared Credentials File in the home directory or export your Credentials with Environment Variables. Ensure that the default credentials are for the AWS account you intended to be synced.
 
 To obtain your `Identity store ID`, go to the AWS Identity Center console and select settings. Under the `Identity Source` section, copy the `Identity store ID`.
 
@@ -118,6 +119,20 @@ make go-build
 
 ```bash
 ./ssosync --help
+./ssosync --google-credentials <path-to-service-account> --identity-store-id <identity-store-id> --endpoint https://scim.eu-north-1.amazonaws.com/3Et6bce0fb9-9fd9-49e9-8ed8-0dc2d0bfd604/scim/v2/ --access-token <access-token> --google-admin gregorio@igenius.ai --region eu-north-1 --sync_method group-list --group-match "Devs,devOps"
+```
+
+or if you want to use env vars you just need to prepend `ssosync_` to the name of the flag:
+
+```shell
+SSOSYNC_GOOGLE_ADMIN
+SSOSYNC_GOOGLE_CREDENTIALS
+SSOSYNC_SCIM_ENDPOINT
+SSOSYNC_SCIM_ACCESS_TOKEN
+SSOSYNC_IDENTITY_STORE_ID
+SSOSYNC_REGION
+SSOSYNC_SYNC_METHOD
+SSOSYNC_GROUP_MATCH
 ```
 
 ```bash
@@ -150,21 +165,21 @@ Flags:
 
 The function has `two behaviour` and these are controlled by the `--sync-method` flag, this behavior could be
 
-1. `groups`: __(default)__ The sync procedure work base on Groups, gets the Google Workspace groups and their members, then creates in AWS SSO the users (members of the Google Workspace groups), then the groups and at the end assign the users to their respective groups.
-2. `users_groups`: __(original behavior, previous versions)__ The sync procedure is simple, gets the Google Workspace users and creates these in AWS SSO Users; then gets Google Workspace groups and creates these in AWS SSO Groups and assigns users to belong to the AWS SSO Groups.
+1. `groups`: **(default)** The sync procedure work base on Groups, gets the Google Workspace groups and their members, then creates in AWS SSO the users (members of the Google Workspace groups), then the groups and at the end assign the users to their respective groups.
+2. `users_groups`: **(original behavior, previous versions)** The sync procedure is simple, gets the Google Workspace users and creates these in AWS SSO Users; then gets Google Workspace groups and creates these in AWS SSO Groups and assigns users to belong to the AWS SSO Groups.
 
 Flags Notes:
 
-* `--include-groups` only works when `--sync-method` is `users_groups`
-* `--ignore-users` works for both `--sync-method` values.  Example: `--ignore-users user1@example.com,user2@example.com` or `SSOSYNC_IGNORE_USERS=user1@example.com,user2@example.com`
-* `--ignore-groups` works for both `--sync-method` values. Example: --ignore-groups group1@example.com,group1@example.com` or `SSOSYNC_IGNORE_GROUPS=group1@example.com,group1@example.com`
-* `--group-match` works for both `--sync-method` values and also in combination with `--ignore-groups` and `--ignore-users`.  This is the filter query passed to the [Google Workspace Directory API when search Groups](https://developers.google.com/admin-sdk/directory/v1/guides/search-groups), if the flag is not used, groups are not filtered.
-* `--user-match` works for both `--sync-method` values and also in combination with `--ignore-groups` and `--ignore-users`.  This is the filter query passed to the [Google Workspace Directory API when search Users](https://developers.google.com/admin-sdk/directory/v1/guides/search-users), if the flag is not used, users are not filtered.
+- `--include-groups` only works when `--sync-method` is `users_groups`
+- `--ignore-users` works for both `--sync-method` values. Example: `--ignore-users user1@example.com,user2@example.com` or `SSOSYNC_IGNORE_USERS=user1@example.com,user2@example.com`
+- `--ignore-groups` works for both `--sync-method` values. Example: --ignore-groups group1@example.com,group1@example.com`or`SSOSYNC_IGNORE_GROUPS=group1@example.com,group1@example.com`
+- `--group-match` works for both `--sync-method` values and also in combination with `--ignore-groups` and `--ignore-users`. This is the filter query passed to the [Google Workspace Directory API when search Groups](https://developers.google.com/admin-sdk/directory/v1/guides/search-groups), if the flag is not used, groups are not filtered.
+- `--user-match` works for both `--sync-method` values and also in combination with `--ignore-groups` and `--ignore-users`. This is the filter query passed to the [Google Workspace Directory API when search Users](https://developers.google.com/admin-sdk/directory/v1/guides/search-users), if the flag is not used, users are not filtered.
 
 NOTES:
 
 1. Depending on the number of users and groups you have, maybe you can get `AWS SSO SCIM API rate limits errors`, and more frequently happens if you execute the sync many times in a short time.
-2. Depending on the number of users and groups you have, `--debug` flag generate too much logs lines in your AWS Lambda function.  So test it in locally with the `--debug` flag enabled and disable it when you use a AWS Lambda function.
+2. Depending on the number of users and groups you have, `--debug` flag generate too much logs lines in your AWS Lambda function. So test it in locally with the `--debug` flag enabled and disable it when you use a AWS Lambda function.
 
 ## AWS Lambda Usage
 
