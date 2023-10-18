@@ -119,7 +119,7 @@ make go-build
 
 ```bash
 ./ssosync --help
-./ssosync --google-credentials <path-to-service-account> --identity-store-id <identity-store-id> --endpoint https://scim.eu-north-1.amazonaws.com/3Et6bce0fb9-9fd9-49e9-8ed8-0dc2d0bfd604/scim/v2/ --access-token <access-token> --google-admin gregorio@igenius.ai --region eu-north-1 --sync_method group-list --group-match "Devs,devOps"
+./ssosync --google-credentials <path-to-service-account> --identity-store-id <identity-store-id> --endpoint <scim-endpoint> --access-token <access-token> --google-admin <google-workspace-admin-email> --region eu-north-1 --sync_method group-list --group-match "group1,group2"
 ```
 
 or if you want to use env vars you just need to prepend `ssosync_` to the name of the flag:

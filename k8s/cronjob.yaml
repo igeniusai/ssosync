@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app: aws-google-workspace-ssosync
+  name: aws-google-workspace-ssosync
+  namespace: sso
+spec:
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+          - env:
+            - name: SSOSYNC_GOOGLE_ADMIN
+              value: ""
+            - name: SSOSYNC_SCIM_ENDPOINT
+              value: ""
+            - name: SSOSYNC_IDENTITY_STORE_ID
+              value: ""
+            - name: SSOSYNC_REGION
+              value: ""
+            - name: SSOSYNC_SYNC_METHOD
+              value: group-list
+            - name: SSOSYNC_GROUP_MATCH
+              value: group1,group2
+            - name: SSOSYNC_SCIM_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: SCIM_ACCESS_TOKEN
+                  name: aws-google-workspace-ssosync
+            - name: SSOSYNC_GOOGLE_CREDENTIALS
+              value: /var/run/secrets/google/AWS_SSO_GOOGLE_CREDENTIALS.json
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: AWS_SECRET_ACCESS_KEY
+                  name: aws-google-workspace-ssosync
+            - name: AWS_ACCESS_KEY_ID
+              value: ""
+            image: ""
+            imagePullPolicy: IfNotPresent
+            name: aws-google-workspace-ssosync
+            resources:
+              limits:
+                cpu: 100m
+                memory: 200Mi
+            volumeMounts:
+              - mountPath: /var/run/secrets/google
+                name: google-cloud-credentials
+                readOnly: true
+          volumes:
+            - name: google-cloud-credentials
+              secret:
+                secretName: aws-google-workspace-ssosync
+                items:
+                  - key: AWS_SSO_GOOGLE_CREDENTIALS.json
+                    path: AWS_SSO_GOOGLE_CREDENTIALS.json
+          restartPolicy: Never
+          terminationGracePeriodSeconds: 30
+  schedule: 0 0 * * *
+  successfulJobsHistoryLimit: 1
+  suspend: false
