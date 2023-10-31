@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ssosync
+  description: Helping you populate AWS SSO directly with your Google Workspace users.
+  links:
+    - url: https://github.com/igeniusai/ssosync
+      title: ssosync
+  tags:
+    - go
+    - aws
+    - google-workspace
+  # Example for optional annotations
+  # annotations:
+  #   github.com/project-slug: backstage/backstage
+  #   backstage.io/techdocs-ref: dir:.
+spec:
+  type: cronjob
+  owner: devops
+  lifecycle: production
